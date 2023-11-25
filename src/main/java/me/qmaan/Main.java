@@ -50,7 +50,6 @@ public final class Main extends JavaPlugin {
         config = YamlConfiguration.loadConfiguration(configFile);
 
         getCommand("broadcast").setExecutor(this);
-        getCommand("qbroadcast").setExecutor(this);
     }
 
     private void loadConfig() {
@@ -64,32 +63,25 @@ public final class Main extends JavaPlugin {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
         String allArgs = String.join(" ", args);
-        if (label.equalsIgnoreCase("broadcast")) {
-            if (!(sender instanceof Player player)) {
 
-                if (args.length < 1) {
-                    sender.sendMessage("/broadcast <message>");
-                    return true;
-                }
-                sendAll(allArgs, null);
+        if (!(sender instanceof Player player)) {
+
+            if (args.length < 1) {
+                sender.sendMessage("/broadcast <message>|reload");
                 return true;
             }
 
-            sendAll(allArgs, player.getName());
-            return true;
-        } else if (label.equalsIgnoreCase("qbroadcast")) {
             if (args[0].equalsIgnoreCase("reload")) {
                 this.reloadConfig();
                 sender.sendMessage("Config reloaded.");
                 return true;
-            } else {
-                sender.sendMessage("/qbroadcast reload - reload config.");
             }
+
+            sendAll(allArgs, null);
+            return true;
         }
 
-
-
-
+        sendAll(allArgs, player.getName());
         return true;
     }
 
