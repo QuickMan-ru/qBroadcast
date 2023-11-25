@@ -1,0 +1,11 @@
+name: qBroadcast
+version: '${version}'
+main: me.qmaan.Main
+api-version: '1.13'
+authors: [qmaan]
+commands:
+  broadcast:
+    aliases:
+      - bc
+      - bcast
+      - ad
