@@ -1,1 +1,2 @@
-broadcast: "{player} sent an ad: "
+broadcast: '#04F451{player} #00FFE0s#1DDFE4e#3BBFE8n#589FECt #7680F0a#9360F3n #B040F7a#CE20FBd#EB00FF: '
+broadcast_console: 'Operator #00FFE0sent an ad: '

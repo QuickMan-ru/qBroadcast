@@ -4,11 +4,14 @@ import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,28 +38,57 @@ public final class Main extends JavaPlugin {
         return message;
     }
 
+
+    static FileConfiguration config;
+    final File configFile = new File(this.getDataFolder(), "messages.yml");
+
+
     @Override
     public void onEnable() {
 
-        File configFile = new File(this.getDataFolder(), "messages.yml");
+        loadConfig();
+        config = YamlConfiguration.loadConfiguration(configFile);
+
+        getCommand("broadcast").setExecutor(this);
+        getCommand("qbroadcast").setExecutor(this);
+    }
+
+    private void loadConfig() {
         if (!configFile.exists()) {
             this.saveResource("messages.yml", false);
         }
-
-        getCommand("broadcast").setExecutor(this);
     }
+
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
-        if (!(sender instanceof Player player)) {
-            sendAll(args[0], null);
-            Bukkit.getLogger().info("4");
+        String allArgs = String.join(" ", args);
+        if (label.equalsIgnoreCase("broadcast")) {
+            if (!(sender instanceof Player player)) {
+
+                if (args.length < 1) {
+                    sender.sendMessage("/broadcast <message>");
+                    return true;
+                }
+                sendAll(allArgs, null);
+                return true;
+            }
+
+            sendAll(allArgs, player.getName());
             return true;
+        } else if (label.equalsIgnoreCase("qbroadcast")) {
+            if (args[0].equalsIgnoreCase("reload")) {
+                this.reloadConfig();
+                sender.sendMessage("Config reloaded.");
+                return true;
+            } else {
+                sender.sendMessage("/qbroadcast reload - reload config.");
+            }
         }
 
-        sendAll(args[0], player.getName());
-        Bukkit.getLogger().info("3");
+
+
 
         return true;
     }
@@ -64,19 +96,24 @@ public final class Main extends JavaPlugin {
 
     private void sendAll(String message, String name) {
 
-        String depend = getConfig().getString("broadcast");
+        String depend = config.getString("broadcast");
+        String depend2 = config.getString("broadcast_console");
 
+        String replacedMessage = null;
         if (name != null) {
-            Bukkit.getLogger().info("1");
             if (depend != null) {
-                Bukkit.getLogger().info("2");
-                depend = depend.replace("{player}", name);
+                replacedMessage = depend.replace("{player}", name);
+            } else {
+                Bukkit.getServer().getLogger().severe("Pls check config");
+                loadConfig();
             }
+        } else {
+            replacedMessage = depend2;
         }
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (player != null) {
-                player.sendMessage(colorhex(depend + message));
+                player.sendMessage(colorhex((replacedMessage != null ? replacedMessage : "") + message));
             }
         }
 

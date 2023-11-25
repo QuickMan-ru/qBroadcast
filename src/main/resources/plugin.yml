@@ -4,6 +4,10 @@ main: me.qmaan.Main
 api-version: '1.13'
 authors: [qmaan]
 commands:
+  qbroadcast:
+    aliases:
+      - qbc
+      - qbcast
   broadcast:
     aliases:
       - bc
