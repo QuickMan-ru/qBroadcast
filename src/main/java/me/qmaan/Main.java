@@ -48,13 +48,15 @@ public final class Main extends JavaPlugin {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+
         if (!(sender instanceof Player player)) {
             sendAll(args[0], null);
+            Bukkit.getLogger().info("4");
             return true;
         }
 
         sendAll(args[0], player.getName());
-
+        Bukkit.getLogger().info("3");
 
         return true;
     }
@@ -65,7 +67,9 @@ public final class Main extends JavaPlugin {
         String depend = getConfig().getString("broadcast");
 
         if (name != null) {
+            Bukkit.getLogger().info("1");
             if (depend != null) {
+                Bukkit.getLogger().info("2");
                 depend = depend.replace("{player}", name);
             }
         }
