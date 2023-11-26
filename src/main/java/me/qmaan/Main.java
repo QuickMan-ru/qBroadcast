@@ -11,12 +11,15 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class Main extends JavaPlugin {
 
+
+    public static String colored(String message) {
+        return org.bukkit.ChatColor.translateAlternateColorCodes('&', message);
+    }
 
     public static String colorhex(String message) {
         String version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
@@ -105,7 +108,7 @@ public final class Main extends JavaPlugin {
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (player != null) {
-                player.sendMessage(colorhex((replacedMessage != null ? replacedMessage : "") + message));
+                player.sendMessage(colored(colorhex((replacedMessage != null ? replacedMessage : "") + message)));
             }
         }
 
