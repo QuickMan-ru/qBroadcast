@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
 import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -58,17 +59,18 @@ public final class Main extends JavaPlugin {
         String author = getDescription().getAuthors().get(0);
         String version = getDescription().getVersion();
         Bukkit.getLogger().info("  ");
-        Bukkit.getLogger().info("   _______       _____ ");
-        Bukkit.getLogger().info("  |__   __|/\\   / ____|");
-        Bukkit.getLogger().info(" __ _| |  /  \\ | |  __ ");
-        Bukkit.getLogger().info("/ _` | | / /\\ \\| | |_ |");
-        Bukkit.getLogger().info("| (_| | |/ ____ \\ |__| |");
-        Bukkit.getLogger().info("\\__, |_/_/    \\_\\_____|");
-        Bukkit.getLogger().info("   | |                 ");
-        Bukkit.getLogger().info("   |_|                 ");
+        Bukkit.getLogger().info("       ____                      _               _   ");
+        Bukkit.getLogger().info("      |  _ \\                    | |             | |  ");
+        Bukkit.getLogger().info("  __ _| |_) |_ __ ___   __ _  __| | ___ __ _ ___| |_ ");
+        Bukkit.getLogger().info(" / _` |  _ <| '__/ _ \\ / _` |/ _` |/ __/ _` / __| __|");
+        Bukkit.getLogger().info("| (_| | |_) | | | (_) | (_| | (_| | (_| (_| \\__ \\ |_ ");
+        Bukkit.getLogger().info(" \\__, |____/|_|  \\___/ \\__,_|\\__,_|\\___\\__,_|___/\\__|");
+        Bukkit.getLogger().info("    | |                                               ");
+        Bukkit.getLogger().info("    |_|                                               ");
         Bukkit.getLogger().info(" ");
         Bukkit.getLogger().info("coder: " + author + " || version: " + version);
-        Bukkit.getLogger().info("More plugins here - https://discord.gg/zq9WpPvqr7");
+        Bukkit.getLogger().info("More Plugin Here:            ");
+        Bukkit.getLogger().info("https://discord.gg/zq9WpPvqr7 | //https://vk.com/craftstudio69");
         Bukkit.getLogger().info("  ");
     }
 
