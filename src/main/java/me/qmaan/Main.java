@@ -2,6 +2,7 @@ package me.qmaan;
 
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -17,11 +18,7 @@ import java.util.regex.Pattern;
 public final class Main extends JavaPlugin {
 
 
-    public static String colored(String message) {
-        return org.bukkit.ChatColor.translateAlternateColorCodes('&', message);
-    }
-
-    public static String colorhex(String message) {
+    public String hex(String message) {
         String version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
         int subVersion = Integer.parseInt(version.split("_")[1]);
 
@@ -34,31 +31,45 @@ public final class Main extends JavaPlugin {
                 message = message.replace(color, ChatColor.of(color) + "");
                 matcher = pattern.matcher(message);
             }
-        } else {
-            message = ChatColor.translateAlternateColorCodes('&', message);
         }
-
-        return message;
+        return ChatColor.translateAlternateColorCodes('&', message);
     }
 
 
-    static FileConfiguration config;
-    final File configFile = new File(this.getDataFolder(), "messages.yml");
+    FileConfiguration config;
+    File configFile = new File(this.getDataFolder(), "messages.yml");
 
 
     @Override
     public void onEnable() {
-
+        logPluginInfo();
         loadConfig();
-        config = YamlConfiguration.loadConfiguration(configFile);
-
         getCommand("broadcast").setExecutor(this);
     }
 
     private void loadConfig() {
         if (!configFile.exists()) {
             this.saveResource("messages.yml", false);
+            config = YamlConfiguration.loadConfiguration(configFile);
         }
+    }
+
+    public void logPluginInfo() {
+        String author = getDescription().getAuthors().get(0);
+        String version = getDescription().getVersion();
+        Bukkit.getLogger().info("  ");
+        Bukkit.getLogger().info("   _______       _____ ");
+        Bukkit.getLogger().info("  |__   __|/\\   / ____|");
+        Bukkit.getLogger().info(" __ _| |  /  \\ | |  __ ");
+        Bukkit.getLogger().info("/ _` | | / /\\ \\| | |_ |");
+        Bukkit.getLogger().info("| (_| | |/ ____ \\ |__| |");
+        Bukkit.getLogger().info("\\__, |_/_/    \\_\\_____|");
+        Bukkit.getLogger().info("   | |                 ");
+        Bukkit.getLogger().info("   |_|                 ");
+        Bukkit.getLogger().info(" ");
+        Bukkit.getLogger().info("coder: " + author + " || version: " + version);
+        Bukkit.getLogger().info("More plugins here - https://discord.gg/zq9WpPvqr7");
+        Bukkit.getLogger().info("  ");
     }
 
 
@@ -99,7 +110,7 @@ public final class Main extends JavaPlugin {
             if (depend != null) {
                 replacedMessage = depend.replace("{player}", name);
             } else {
-                Bukkit.getServer().getLogger().severe("Pls check config");
+                Bukkit.getServer().getLogger().severe("Please check config");
                 loadConfig();
             }
         } else {
@@ -108,7 +119,8 @@ public final class Main extends JavaPlugin {
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (player != null) {
-                player.sendMessage(colored(colorhex((replacedMessage != null ? replacedMessage : "") + message)));
+                player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0F, 1.0F);
+                player.sendMessage(hex((replacedMessage != null ? replacedMessage : "") + message));
             }
         }
 
